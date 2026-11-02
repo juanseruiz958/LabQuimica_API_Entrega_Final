@@ -1,0 +1,452 @@
+{
+  "info": {
+    "name": "Lab Química API - Pruebas",
+    "description": "Colección de pruebas manuales para los endpoints de Lab Química.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health - API y MySQL",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "health"
+          ]
+        },
+        "description": "Debe responder estado OK y base de datos conectada."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200',()=>pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Listar materiales",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/materiales",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "materiales"
+          ]
+        },
+        "description": ""
+      },
+      "response": []
+    },
+    {
+      "name": "Filtrar por categoría",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/materiales?categoria=VIDRIERIA",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "materiales?categoria=VIDRIERIA"
+          ]
+        },
+        "description": ""
+      },
+      "response": []
+    },
+    {
+      "name": "Buscar por texto",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/materiales?q=vaso",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "materiales?q=vaso"
+          ]
+        },
+        "description": ""
+      },
+      "response": []
+    },
+    {
+      "name": "Consultar material",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/materiales/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "materiales",
+            "1"
+          ]
+        },
+        "description": ""
+      },
+      "response": []
+    },
+    {
+      "name": "Crear material",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/materiales",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "materiales"
+          ]
+        },
+        "description": "Crear material de prueba.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Bureta 50 ml\",\n  \"categoria\": \"VIDRIERIA\",\n  \"descripcion\": \"Bureta graduada para titulaciones.\",\n  \"cantidad_total\": 6,\n  \"estado\": \"ACTIVO\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Creado',()=>pm.response.to.have.status(201));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Actualizar material",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/materiales/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "materiales",
+            "1"
+          ]
+        },
+        "description": "",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Bureta 50 ml actualizada\",\n  \"categoria\": \"VIDRIERIA\",\n  \"descripcion\": \"Bureta graduada para titulaciones.\",\n  \"cantidad_total\": 6,\n  \"estado\": \"ACTIVO\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Desactivar material",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/materiales/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "materiales",
+            "1"
+          ]
+        },
+        "description": "Desactiva sin borrar historial."
+      },
+      "response": []
+    },
+    {
+      "name": "Listar préstamos",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/prestamos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "prestamos"
+          ]
+        },
+        "description": ""
+      },
+      "response": []
+    },
+    {
+      "name": "Filtrar préstamos activos",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/prestamos?estado=ACTIVO",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "prestamos?estado=ACTIVO"
+          ]
+        },
+        "description": ""
+      },
+      "response": []
+    },
+    {
+      "name": "Consultar préstamo",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/prestamos/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "prestamos",
+            "1"
+          ]
+        },
+        "description": ""
+      },
+      "response": []
+    },
+    {
+      "name": "Registrar préstamo válido",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/prestamos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "prestamos"
+          ]
+        },
+        "description": "El material 1 debe estar activo y tener disponibilidad.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"material_id\": 1,\n  \"responsable\": \"Juan Pérez\",\n  \"cantidad\": 2,\n  \"fecha_prevista_devolucion\": \"2026-10-20\",\n  \"observaciones\": \"Práctica de química analítica.\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Creado',()=>pm.response.to.have.status(201));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Prueba negativa: cantidad excesiva",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/prestamos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "prestamos"
+          ]
+        },
+        "description": "Debe responder 409 por falta de disponibilidad.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"material_id\": 1,\n  \"responsable\": \"Prueba\",\n  \"cantidad\": 99999,\n  \"fecha_prevista_devolucion\": \"2026-10-20\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Registrar devolución",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/prestamos/1/devolver",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "prestamos",
+            "1",
+            "devolver"
+          ]
+        },
+        "description": ""
+      },
+      "response": []
+    },
+    {
+      "name": "Prueba negativa: segunda devolución",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/prestamos/1/devolver",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "prestamos",
+            "1",
+            "devolver"
+          ]
+        },
+        "description": "Debe responder 409 si el préstamo ya fue devuelto."
+      },
+      "response": []
+    }
+  ]
+}

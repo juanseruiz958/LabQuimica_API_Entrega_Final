@@ -1,0 +1,28 @@
+LAB QUÍMICA — ETAPA 3: API FUNCIONAL
+
+Tecnología: Node.js + Express + MySQL
+Entidades: materiales y prestamos
+
+Pasos:
+1. Ejecutar database/schema.sql en MySQL Workbench.
+2. Copiar .env.example a .env y configurar la contraseña.
+3. En terminal, ejecutar npm install.
+4. Ejecutar npm start.
+5. Comprobar http://localhost:3000/api/health.
+6. Importar postman/Lab_Quimica_API.postman_collection.json en Postman.
+
+Endpoints:
+GET /api/health
+GET /api/materiales
+GET /api/materiales/:id
+POST /api/materiales
+PUT /api/materiales/:id
+DELETE /api/materiales/:id
+GET /api/materiales?categoria=VIDRIERIA
+GET /api/materiales?q=vaso
+GET /api/prestamos
+GET /api/prestamos/:id
+POST /api/prestamos
+PATCH /api/prestamos/:id/devolver
+
+Regla de negocio: se rechazan préstamos superiores a la cantidad disponible. La disponibilidad se descuenta al prestar y se repone al devolver.
