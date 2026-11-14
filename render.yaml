@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: lab-quimica-api
+    runtime: node
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: TIDB_HOST
+        sync: false
+      - key: TIDB_PORT
+        value: "4000"
+      - key: TIDB_USER
+        sync: false
+      - key: TIDB_PASSWORD
+        sync: false
+      - key: TIDB_DATABASE
+        value: lab_quimica
+      - key: TIDB_ENABLE_SSL
+        value: "true"
+      - key: JWT_SECRET
+        generateValue: true
+      - key: LABORATORISTA_REGISTRATION_CODE
+        generateValue: true

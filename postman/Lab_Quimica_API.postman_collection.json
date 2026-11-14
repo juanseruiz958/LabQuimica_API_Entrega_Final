@@ -7,10 +7,112 @@
   "variable": [
     {
       "key": "baseUrl",
-      "value": "http://localhost:3000"
+      "value": "http://localhost:3001"
     }
   ],
   "item": [
+    {
+      "name": "Iniciar sesión",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"correo\": \"CORREO_DE_CUENTA_REGISTRADA\",\n  \"contrasena\": \"CONTRASENA_DE_LA_CUENTA\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        },
+        "description": "Usa las credenciales de una cuenta creada previamente desde la app o el endpoint de registro."
+      },
+      "response": []
+    },
+    {
+      "name": "Registrar laboratorista",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Laboratorista de prueba\",\n  \"correo\": \"lab.{{$randomInt}}@example.edu\",\n  \"contrasena\": \"Cambiar1234\",\n  \"rol\": \"LABORATORISTA\",\n  \"codigoLaboratorista\": \"REEMPLAZAR_POR_CODIGO_LOCAL\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/register",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "register"
+          ]
+        },
+        "description": "Requiere el código configurado por el administrador en LABORATORISTA_REGISTRATION_CODE."
+      },
+      "response": []
+    },
+    {
+      "name": "Registrar estudiante",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Usuario de prueba\",\n  \"correo\": \"nuevo.{{$randomInt}}@example.edu\",\n  \"contrasena\": \"Cambiar1234\",\n  \"rol\": \"ESTUDIANTE\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/register",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "register"
+          ]
+        },
+        "description": "El registro devuelve token y usuario; cambia los datos si repites la solicitud."
+      },
+      "response": []
+    },
     {
       "name": "Health - API y MySQL",
       "request": {

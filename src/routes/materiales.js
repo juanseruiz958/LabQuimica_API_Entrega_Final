@@ -1,7 +1,9 @@
 const express = require('express');
 const pool = require('../db');
+const { verifyToken, requireRole } = require('../middleware/auth');
 const router = express.Router();
 const estados = ['ACTIVO','INACTIVO'];
+router.use(verifyToken);
 
 function validar(b) {
   const e=[];
@@ -31,7 +33,7 @@ router.get('/:id',async(req,res,next)=>{
     if(!r.length)return res.status(404).json({error:'Material no encontrado.'});res.json(r[0]);
   }catch(e){next(e);}
 });
-router.post('/',async(req,res,next)=>{
+router.post('/',requireRole('LABORATORISTA'),async(req,res,next)=>{
   try{
     const errors=validar(req.body);if(errors.length)return res.status(400).json({error:'Datos inválidos.',detalles:errors});
     const {nombre,categoria,descripcion=null,cantidad_total,estado='ACTIVO'}=req.body;
@@ -41,7 +43,7 @@ router.post('/',async(req,res,next)=>{
     res.status(201).json({mensaje:'Material creado correctamente.',datos:rows[0]});
   }catch(e){next(e);}
 });
-router.put('/:id',async(req,res,next)=>{
+router.put('/:id',requireRole('LABORATORISTA'),async(req,res,next)=>{
   const conn=await pool.getConnection();
   try{
     const id=Number(req.params.id);if(!Number.isInteger(id)||id<1)return res.status(400).json({error:'ID inválido.'});
@@ -58,7 +60,7 @@ router.put('/:id',async(req,res,next)=>{
   }catch(e){await conn.rollback().catch(()=>{});next(e);}finally{conn.release();}
 });
 // DELETE aplica baja lógica para conservar el historial de préstamos.
-router.delete('/:id',async(req,res,next)=>{
+router.delete('/:id',requireRole('LABORATORISTA'),async(req,res,next)=>{
   try{
     const id=Number(req.params.id);if(!Number.isInteger(id)||id<1)return res.status(400).json({error:'ID inválido.'});
     const [r]=await pool.execute('SELECT id FROM materiales WHERE id=?',[id]);

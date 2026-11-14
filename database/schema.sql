@@ -1,6 +1,19 @@
 CREATE DATABASE IF NOT EXISTS lab_quimica CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE lab_quimica;
 
+CREATE TABLE IF NOT EXISTS usuarios (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ nombre VARCHAR(120) NOT NULL,
+ correo VARCHAR(120) NOT NULL UNIQUE,
+ contrasena_hash VARCHAR(255) NOT NULL,
+ rol ENUM('ESTUDIANTE','LABORATORISTA') NOT NULL DEFAULT 'ESTUDIANTE',
+ estado ENUM('ACTIVO','INACTIVO') NOT NULL DEFAULT 'ACTIVO',
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ INDEX idx_usuario_correo(correo),
+ INDEX idx_usuario_rol(rol)
+) ENGINE=InnoDB;
+
 CREATE TABLE IF NOT EXISTS materiales (
  id INT AUTO_INCREMENT PRIMARY KEY,
  nombre VARCHAR(100) NOT NULL,
@@ -20,6 +33,7 @@ CREATE TABLE IF NOT EXISTS materiales (
 CREATE TABLE IF NOT EXISTS prestamos (
  id INT AUTO_INCREMENT PRIMARY KEY,
  material_id INT NOT NULL,
+ usuario_id INT NULL,
  responsable VARCHAR(120) NOT NULL,
  cantidad INT NOT NULL,
  fecha_prestamo DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -31,8 +45,10 @@ CREATE TABLE IF NOT EXISTS prestamos (
  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
  CHECK (cantidad > 0),
  CONSTRAINT fk_prestamo_material FOREIGN KEY(material_id) REFERENCES materiales(id) ON UPDATE CASCADE ON DELETE RESTRICT,
+ CONSTRAINT fk_prestamo_usuario FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON UPDATE CASCADE ON DELETE SET NULL,
  INDEX idx_prestamo_estado(estado),
- INDEX idx_prestamo_material(material_id)
+ INDEX idx_prestamo_material(material_id),
+ INDEX idx_prestamo_usuario(usuario_id)
 ) ENGINE=InnoDB;
 
 INSERT INTO materiales(nombre,categoria,descripcion,cantidad_total,cantidad_disponible,estado)
