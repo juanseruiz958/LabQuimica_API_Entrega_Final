@@ -13,6 +13,14 @@ if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) {
 }
 app.use(cors());
 app.use(express.json({limit:'1mb'}));
+app.get('/',(req,res)=>{
+  res.json({
+    servicio:'Lab Química API',
+    estado:'activo',
+    health:'/api/health',
+    documentacion:'Consulta la colección Postman para ver los endpoints disponibles.'
+  });
+});
 app.get('/api/health',async(req,res,next)=>{
   try{await pool.query('SELECT 1');res.json({estado:'OK',servicio:'Lab Química API',base_datos:'conectada'});}
   catch(e){next(e);}
